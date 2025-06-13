@@ -1428,8 +1428,10 @@ liff.sendMessages([{
                 }
             }
 
-            // 現在の日時を取得
-            const now = new Date();
+// 現在の日時を取得
+const now = new Date();
+const threeMonthsLater = new Date(now);
+threeMonthsLater.setMonth(now.getMonth() + 3);
 
             // テーブルの内容を更新
             for (let i = 0; i < 7; i++) {
@@ -1464,6 +1466,13 @@ liff.sendMessages([{
 
                     // メニュー時間と訪問回数の時間を合計して、終了時間を設定
                     slotEnd.setMinutes(slotStart.getMinutes() + menuDuration + visitDuration + irradiationsDuration);
+
+        // 🔻3ヶ月以降は✕
+        if (slotStart > threeMonthsLater) {
+            cell.textContent = '✕';
+            cell.classList.add('unavailable');
+            continue;
+        }
 
                     // 終了時間が翌日 (0時以降) になる場合は✕に設定
                     if (slotEnd.getDate() !== slotStart.getDate()) {
